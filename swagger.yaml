@@ -1,0 +1,345 @@
+---
+consumes:
+- application/json
+info:
+  title: Velux Active with Netatmo
+  version: 0.2.0
+paths:
+  "/syncapi/v1/setstate":
+    post:
+      operationId: setState
+      parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/setState"
+      responses:
+        403:
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code: { type: integer } # 3
+                  message: { type: string }
+        200:
+          description: set state response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              time_server:
+                type: integer
+      security:
+        - OAuth2: []
+  "/syncapi/v1/homestatus":
+    post:
+      operationId: homeStatus
+      parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          required: [home_id]
+          properties:
+            home_id:
+              type: string
+      responses:
+        403:
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code: { type: integer } # 3
+                  message: { type: string }
+        200:
+          description: set state response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              time_server:
+                type: integer
+              body:
+                type: object
+                properties:
+                  home:
+                    $ref: "#/definitions/homeStatus"
+      security:
+        - OAuth2: []
+  "/api/homesdata":
+    post:
+      operationId: homesData
+      responses:
+        403:
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code: { type: integer } # 3
+                  message: { type: string }
+        200:
+          description: get homes data
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              time_exec:
+                type: number
+              time_server:
+                type: integer
+              body:
+                type: object
+                properties:
+                  homes:
+                    type: array
+                    items:
+                      $ref: "#/definitions/home"
+                  user:
+                    $ref: "#/definitions/user"
+      security:
+        - OAuth2: []
+definitions:
+  homeStatus:
+    type: object
+    properties:
+      id: { type: string }
+      modules:
+        type: array
+        items:
+          $ref: "#/definitions/moduleStatus"
+      rooms:
+        type: array
+        items:
+          $ref: "#/definitions/roomStatus"
+  moduleStatus:
+    type: object
+    properties:
+      current_position: { type: integer }
+      firmware_revision: { type: integer }
+      id: { type: string }
+      manufacturer: { type: string }
+      mode: { type: string }
+      type: { type: string }
+      velux_type: { type: string }
+      bridge: { type: string }
+      last_seen: { type: integer }
+      target_position: { type: integer }
+      reachable: { type: boolean }
+      battery_state: { type: string }
+      battery_level: { type: integer }
+      battery_percent: { type: integer }
+      rf_strength: { type: integer }
+      wifi_strength: { type: integer }
+      algo_enabled: { type: boolean }
+      busy: { type: boolean }
+      calibrating: { type: boolean }
+      firmware_revision_netatmo: { type: integer }
+      firmware_revision_thirdparty: { type: string }
+      is_raining: { type: boolean }
+      locked: { type: boolean }
+      locking: { type: boolean }
+      name: { type: string } 
+      pairing: { type: string }
+      secure: { type: boolean }
+  roomStatus:
+    type: object
+    properties:
+      algo_status: { type: integer }
+      auto_close_ts: { type: integer }
+      id: { type: string }
+      air_quality: { type: integer }
+      co2: { type: integer }
+      humidity: { type: integer }
+      lux: { type: integer }
+      max_comfort_co2: { type: integer }
+      max_comfort_humidity: { type: integer }
+      max_comfort_temperature: { type: integer }
+      min_comfort_humidity: { type: integer }
+      min_comfort_temperature: { type: integer }
+      temperature: { type: integer }
+  home:
+    type: object
+    properties:
+      id: { type: string }
+      name: { type: string }
+      altitude: { type: integer }
+      country: { type: string }
+      timezone: { type: string } 
+      currency_code: { type: string }
+      nb_users: { type: number }
+      therm_absence_notification: { type: boolean }
+      therm_absence_autoaway: { type: boolean }
+      therm_setpoint_default_duration: { type: number }
+      anticipation: { type: boolean }
+      therm_heating_priority: { type: string }
+      gone_after: { type: number }
+      share_info: { type: boolean }
+      smart_notifs: { type: boolean }
+      events_ttl: { type: string }
+      therm_mode: { type: string }
+      coordinates:
+        type: array
+        items:
+          type: number
+      invitation_code:
+        type: array
+        items:
+          type: string
+      rooms:
+        type: array
+        items:
+          type: object
+          properties:
+            id: { type: string }
+            name: { type: string }
+            type: { type: string }
+            module_ids:
+              type: array
+              items:
+                type: string
+            modules:
+              type: array
+              items:
+                type: string
+            measure_offset_NAPlug_temperature: { type: integer }
+            measure_offset_NAPlug_estimated_temperature: { type: integer }
+      modules:
+        type: array
+        items:
+          type: object
+          properties:
+            id: { type: string }
+            type: { type: string }
+            name: { type: string }
+            subtype: { type: string }
+            setup_date: { type: integer }
+            reachable: { type: boolean }
+            pincode_enabled: { type: boolean }
+            room_id: { type: string }
+            bridge: { type: string }
+            schedule_limits:
+              type: array
+              items:
+                type: object
+                properties:
+                  nb_zones: { type: integer }
+                  nb_timeslots: { type: integer }
+                  nb_items: { type: integer }
+                  type: { type: string }
+      schedules:
+        type: array
+        items:
+          $ref: "#/definitions/schedule"
+  schedule:
+    type: object
+    properties:
+      timetable:
+        type: array
+        items:
+          type: object
+          properties:
+            zone_id: { type: integer }
+            m_offset: { type: integer }
+      zones:
+        type: array
+        items:
+          type: object
+          properties:
+            id: { type: integer }
+            rooms:
+              type: array
+              items:
+                type: object
+                properties:
+                  id: { type: string }
+                  mode: { type: string }
+      name: { type: string }
+      id: { type: string }
+      type: { type: string }
+      default: { type: boolean }
+      selected: { type: boolean }
+      timetable_sunrise:
+        type: array
+        items:
+          type: object
+      timetable_sunset:
+        type: array
+        items:
+          type: object
+  user:
+    type: object
+    properties:
+      email: { type: string }
+      language: { type: string }
+      locale: { type: string }
+      country: { type: string }
+      feel_like_algorithm: { type: integer }
+      unit_pressure: { type: integer }
+      unit_system: { type: integer }
+      unit_wind: { type: integer }
+      all_linked: { type: boolean }
+      type: { type: string }
+      id: { type: string }
+      fb_chatbot_available: { type: boolean }
+      app_telemetry: { type: boolean }
+      velux_type: { type: string }
+      group_id: { type: string }
+      modules_bridged:
+        type: array
+        items:
+          type: string
+  setState:
+    type: object
+    properties:
+      home:
+        type: object
+        required: [id, modules]
+        properties:
+          id:
+            type: string
+          modules:
+            type: array
+            items:
+              $ref: "#/definitions/modulePercentage"
+  modulePercentage:
+    type: object
+    properties:
+      bridge:
+        description: bridge id
+        type: string
+      id:
+        description: module id
+        type: string
+      target_position:
+        description: percentage open
+        type: integer
+securityDefinitions:
+  OAuth2:
+    type: oauth2
+    flow: password
+    tokenUrl: https://app.velux-active.com/oauth2/token?user_prefix=velux
+    scopes:
+      all_scopes: all scopes
+      access_velux: access_velux
+      read_velux: read_velux
+      write_velux: write_velux
+produces:
+- application/json
+schemes:
+- https
+host: api.netatmo.net
+swagger: '2.0'
