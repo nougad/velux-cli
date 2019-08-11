@@ -2,8 +2,8 @@ package main
 
 import "fmt"
 import "encoding/json"
-import "velux-cli/models"
-import "velux-cli/client/operations"
+import "github.com/nougad/velux-cli/models"
+import "github.com/nougad/velux-cli/client/operations"
 import "github.com/go-openapi/swag"
 
 func Move(state *State, shutters []string, position int64) {

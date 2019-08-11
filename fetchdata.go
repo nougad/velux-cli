@@ -1,11 +1,11 @@
 package main
 
-import "velux-cli/models"
+import "github.com/nougad/velux-cli/models"
 import "github.com/go-openapi/runtime"
-import "velux-cli/client"
-import "velux-cli/client/operations"
+import "github.com/nougad/velux-cli/client"
+import "github.com/nougad/velux-cli/client/operations"
 import "github.com/go-openapi/swag"
-import apiclient "velux-cli/client"
+import apiclient "github.com/nougad/velux-cli/client"
 import httptransport "github.com/go-openapi/runtime/client"
 
 type State struct {
