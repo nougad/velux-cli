@@ -327,6 +327,7 @@ definitions:
       target_position:
         description: percentage open
         type: integer
+        x-nullable: true
 securityDefinitions:
   OAuth2:
     type: oauth2
