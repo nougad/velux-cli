@@ -49,7 +49,7 @@ func main() {
 		cmd.Parse(os.Args[2:])
 
 		state := fetchData(*tokenpath)
-		Move(state, shutters, int32(*position))
+		Move(state, shutters, int64(*position))
 	default:
 		fmt.Printf("%q is not valid command.\n", os.Args[1])
 		os.Exit(2)

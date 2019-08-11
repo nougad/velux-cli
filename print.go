@@ -7,13 +7,13 @@ func PrintStatus(state *State) {
 		if r.Temperature != 0 {
 			fmt.Printf(
 				"%s (air quality: %d / CO2: %d / Temperature: %d / Humidity: %d / Lux: %d)\n",
-				state.NameForRoom[r.Id], r.AirQuality, r.Co2, r.Temperature/10.0, r.Humidity, r.Lux)
+				state.NameForRoom[r.ID], r.AirQuality, r.Co2, r.Temperature/10.0, r.Humidity, r.Lux)
 		} else {
-			fmt.Printf("%s\n", state.NameForRoom[r.Id])
+			fmt.Printf("%s\n", state.NameForRoom[r.ID])
 		}
 
-		for _, m := range state.ModulesForRoom[r.Id] {
-			if state.ModuleStatus[m].Type_ == "NXO" {
+		for _, m := range state.ModulesForRoom[r.ID] {
+			if state.ModuleStatus[m].Type == "NXO" {
 				fmt.Printf("  - %d %s\n", state.ModuleStatus[m].CurrentPosition, state.NameForModule[m])
 			} else {
 				fmt.Printf("  - %s: battery: %d%% rf strength: %d\n", state.NameForModule[m], state.ModuleStatus[m].BatteryPercent, state.ModuleStatus[m].RfStrength)

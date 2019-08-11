@@ -2,41 +2,44 @@ package main
 
 import "fmt"
 import "encoding/json"
-import sw "./go-client"
+import "velux-cli/models"
+import "velux-cli/client/operations"
+import "github.com/go-openapi/swag"
 
-func Move(state *State, shutters []string, position int32) {
+func Move(state *State, shutters []string, position int64) {
 	fmt.Printf("Moving shutters: %+v to %+v\n", shutters, position)
 	if len(shutters) == 0 {
 		return
 	}
 
-	var updates []sw.ModulePercentage
+	var updates []*models.ModulePercentage
 	for _, x := range shutters {
-		m := sw.ModulePercentage{
+		m := &models.ModulePercentage{
 			Bridge:         state.BridgeId,
-			Id:             state.ModuleForName[x],
+			ID:             state.ModuleForName[x],
 			TargetPosition: position,
 		}
 		updates = append(updates, m)
 	}
 
-	param := sw.SetState{
-		Home: &sw.SetStateHome{
-			Id:      state.HomeId,
+	param := operations.NewSetStateParams()
+	param.WithBody(&models.SetState{
+		Home: &models.SetStateHome{
+			ID:      swag.String(state.HomeId),
 			Modules: updates,
 		},
-	}
+	})
 
-	fmt.Printf("> request: %+v\n", param)
-	fmt.Printf("> request: %+v\n", param.Home)
-	fmt.Printf("> request: %+v\n", param.Home.Modules)
+	fmt.Printf("> request: %+v\n", param.Body)
+	fmt.Printf("> request: %+v\n", param.Body.Home)
+	fmt.Printf("> request: %+v\n", param.Body.Home.Modules)
 	j, err := json.Marshal(param)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Printf("> request: %+v\n", string(j))
 
-	response, _, err := state.Api.SetState(state.Auth, param)
+	response, err := state.Api.Operations.SetState(param, state.Auth)
 	if err != nil {
 		panic(err)
 	}
