@@ -64,7 +64,9 @@ func doRefresh(refreshToken string) *Token {
 	url := "https://app.velux-active.com/oauth2/token"
 	req, err := http.NewRequest("POST", url, strings.NewReader(reqBody))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	log.Printf("token refresh: %+v", req)
+	if Debug {
+		log.Printf("token refresh: %+v", req)
+	}
 
 	resp, err := myClient.Do(req)
 	if err != nil {
@@ -97,11 +99,12 @@ func refreshToken(tokenFilePath string) *Token {
 
 	expireTime := tokenFile.Refreshed.Add(time.Second * time.Duration(tokenFile.Token.ExpireIn))
 	if expireTime.Before(time.Now()) {
-		log.Println("refreshing token")
 		resultToken = doRefresh(tokenFile.Token.RefreshToken)
 		writeCacheToken(tokenFilePath, resultToken)
 	} else {
-		log.Println("skip refreshing token")
+		if Debug {
+			log.Println("skip refreshing token")
+		}
 		resultToken = tokenFile.Token
 	}
 
