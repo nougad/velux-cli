@@ -9,6 +9,9 @@ all: build
 build:
 	$(GOBUILD) -o $(BINARY_NAME) -v
 
+fmt:
+	$(GOCMD) fmt
+
 clean:
 	$(GOCLEAN)
 	rm -f $(BINARY_NAME) client models
