@@ -1,10 +1,10 @@
 package main
 
-import "github.com/nougad/velux-cli/models"
 import "github.com/go-openapi/runtime"
+import "github.com/go-openapi/swag"
 import "github.com/nougad/velux-cli/client"
 import "github.com/nougad/velux-cli/client/operations"
-import "github.com/go-openapi/swag"
+import "github.com/nougad/velux-cli/models"
 import apiclient "github.com/nougad/velux-cli/client"
 import httptransport "github.com/go-openapi/runtime/client"
 

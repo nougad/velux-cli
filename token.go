@@ -2,8 +2,8 @@ package main
 
 import "encoding/json"
 import "fmt"
-import "log"
 import "io/ioutil"
+import "log"
 import "net/http"
 import "net/url"
 import "os"
