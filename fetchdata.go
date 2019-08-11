@@ -28,7 +28,7 @@ func fetchData(tokenFile string) *State {
 
 	cfg := apiclient.DefaultTransportConfig()
 	t := httptransport.New(cfg.Host, cfg.BasePath, cfg.Schemes)
-	t.SetDebug(true)
+	t.SetDebug(Debug)
 	client := apiclient.New(t, nil)
 
 	var state = &State{
