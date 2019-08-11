@@ -33,7 +33,6 @@ func fetchData(tokenFile string) *State {
 
 	var state = &State{
 		Api:            client,
-		BridgeId:       BridgeId,
 		Auth:           httptransport.BearerToken(token.AccessToken),
 		NameForRoom:    make(map[string]string),
 		RoomForName:    make(map[string]string),

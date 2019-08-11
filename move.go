@@ -15,7 +15,7 @@ func Move(state *State, shutters []string, position int64) {
 	var updates []*models.ModulePercentage
 	for _, x := range shutters {
 		m := &models.ModulePercentage{
-			Bridge:         state.BridgeId,
+			Bridge:         state.ModuleStatus[state.ModuleForName[x]].Bridge,
 			ID:             state.ModuleForName[x],
 			TargetPosition: position,
 		}
