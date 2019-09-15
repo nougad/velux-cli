@@ -6,7 +6,7 @@ GOGET=$(GOCMD) get
 BINARY_NAME=velux-cli
 
 all: build
-build:
+build: genclient
 	$(GOBUILD) -o $(BINARY_NAME) -v
 
 fmt:
@@ -23,5 +23,5 @@ deps:
 	$(GOGET) github.com/go-openapi/runtime/client
 	$(GOGET) github.com/go-openapi/strfmt
 
-genclient:
+genclient: deps
 	../../../../bin/swagger generate client -f ./swagger.yaml

@@ -1,6 +1,12 @@
 # velux-cli
 Go Client for Velux Active KIX 300
 
+## Install
+
+```
+go get github.com/nougad/velux-cli
+```
+
 ## Auth
 
 Login to Velux using username and password
