@@ -8,6 +8,7 @@ go get github.com/nougad/velux-cli
 # will fail with: package github.com/nougad/velux-cli/client: cannot find package "github.com/nougad/velux-cli/client" in any of:
 # go then into `src/github.com/nougad/velux-cli` to generate the swagger client
 $ cd src/github.com/nougad/velux-cli
+# make changes to the `config.go` file and add velux client id and client secret
 # and run make
 $ make
 ```
