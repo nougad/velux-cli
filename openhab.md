@@ -2,7 +2,31 @@
 
 ## generate `token.json`
 
-TODO
+Login to Velux using username and password
+
+```
+CLIENT_ID=".."
+CLIENT_SECRET=".."
+USERNAME="email"
+PASSWORD=""
+curl -v -d "grant_type=password&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&username=${USERNAME}&password=${PASSWORD}&user_prefix=velux" https://app.velux-active.com/oauth2/token
+```
+
+Then create a file named `token.json`
+
+```
+{
+ "token": {
+  "access_token": "5...d|5...0",
+  "refresh_token": "5...d|c...4",
+  "scope": [
+   "all_scopes"
+  ],
+  "expires_in": 10800
+ },
+ "refreshed": "2019-08-11T21:42:51.597296912+02:00"
+}
+```
 
 ## Define Shutters including Alexa integration
 
@@ -36,7 +60,7 @@ Rollershutter OfficeRight_Rollershutter
 
 ## Update item state
 
-## file `things/velux.things`
+### file `things/velux.things`
 
 ```
 Thing exec:command:velux [command="/openhab/conf/velux-cli dump -outfile - -tokenfile /openhab/conf/token.json", interval=30, timeout=20]
