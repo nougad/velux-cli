@@ -5,6 +5,11 @@ Go Client for Velux Active KIX 300
 
 ```
 go get github.com/nougad/velux-cli
+# will fail with: package github.com/nougad/velux-cli/client: cannot find package "github.com/nougad/velux-cli/client" in any of:
+# go then into `src/github.com/nougad/velux-cli` to generate the swagger client
+$ cd src/github.com/nougad/velux-cli
+# and run make
+$ make
 ```
 
 ## Auth
